@@ -80,6 +80,8 @@ final as (
 
 )
 
-select * from final
+select * 
+from final
+where diff_count != 0
 
 {% endmacro %}
