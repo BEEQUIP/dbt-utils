@@ -12,7 +12,7 @@
     {{ return('') }}
 {% endif %}
 
-{% set has_grouping = False %}
+{% set has_grouping = group_by_columns | length > 0 %}
 {% if group_by_columns|length() > 0 %}
   {% set select_gb_cols = group_by_columns|join(', ') + ', ' %}
   {% set join_gb_cols %}
