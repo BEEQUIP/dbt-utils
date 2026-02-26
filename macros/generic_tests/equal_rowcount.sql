@@ -27,6 +27,7 @@
 {#-- The same logic is used in fewer_rows_than. In case of changes, maintain consistent logic --#}
 {% set group_by_columns = ['id_dbtutils_test_equal_rowcount'] + group_by_columns %}
 {% set groupby_gb_cols = 'group by ' + group_by_columns|join(',') %}
+{% set has_grouping = group_by_columns | length > 0 %}
 
 with a as (
 
@@ -35,10 +36,12 @@ with a as (
       1 as id_dbtutils_test_equal_rowcount,
       count(*) as count_a 
     from {{ model }}
-    {{groupby_gb_cols}}
-
+    {% if has_grouping %}
+        {{groupby_gb_cols}}
+    {% endif %}
 
 ),
+
 b as (
 
     select 
@@ -46,9 +49,12 @@ b as (
       1 as id_dbtutils_test_equal_rowcount,
       count(*) as count_b 
     from {{ compare_model }}
-    {{groupby_gb_cols}}
+    {% if has_grouping %}
+        {{groupby_gb_cols}}
+    {% endif %}
 
 ),
+
 final as (
 
     select
@@ -63,11 +69,14 @@ final as (
         abs(count_a - count_b) as diff_count
 
     from a
+    {% if has_grouping %}
     full join b
     on
     a.id_dbtutils_test_equal_rowcount = b.id_dbtutils_test_equal_rowcount
     {{join_gb_cols}}
-
+    {% else %}
+        cross join b
+    {% endif %}
 
 )
 
