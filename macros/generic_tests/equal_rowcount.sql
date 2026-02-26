@@ -29,6 +29,8 @@
 {% set group_by_columns = ['id_dbtutils_test_equal_rowcount'] + group_by_columns %}
 {% set groupby_gb_cols = 'group by ' + group_by_columns|join(',') %}
 
+{{ log("Running my macro, has_grouping=" ~ has_grouping, info=True) }}
+
 with a as (
 
     select 
