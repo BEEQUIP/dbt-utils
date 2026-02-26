@@ -1,5 +1,5 @@
 {% test equal_rowcount(model, compare_model, group_by_columns = []) %}
-  {{ return(adapter.dispatch('test_equal_rowcount', 'dbt_utils')(model, compare_model, group_by_columns)) }}
+  
 {% endtest %}
 
 {% macro default__test_equal_rowcount(model, compare_model, group_by_columns) %}
@@ -12,6 +12,7 @@
     {{ return('') }}
 {% endif %}
 
+{% set has_grouping = group_by_columns | length > 0 %}
 {% if group_by_columns|length() > 0 %}
   {% set select_gb_cols = group_by_columns|join(', ') + ', ' %}
   {% set join_gb_cols %}
@@ -27,7 +28,6 @@
 {#-- The same logic is used in fewer_rows_than. In case of changes, maintain consistent logic --#}
 {% set group_by_columns = ['id_dbtutils_test_equal_rowcount'] + group_by_columns %}
 {% set groupby_gb_cols = 'group by ' + group_by_columns|join(',') %}
-{% set has_grouping = group_by_columns | length > 0 %}
 
 with a as (
 
