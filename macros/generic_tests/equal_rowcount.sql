@@ -28,7 +28,7 @@
 {#-- The same logic is used in fewer_rows_than. In case of changes, maintain consistent logic --#}
 {% set group_by_columns = ['id_dbtutils_test_equal_rowcount'] + group_by_columns %}
 {% set groupby_gb_cols = 'group by ' + group_by_columns|join(',') %}
-
+-- {{ has_grouping }}
 with a as (
 
     select 
