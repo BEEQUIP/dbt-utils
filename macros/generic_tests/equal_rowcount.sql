@@ -12,7 +12,7 @@
     {{ return('') }}
 {% endif %}
 
-{% set has_grouping = group_by_columns | length > 0 %}
+{% set has_grouping = False %}
 {% if group_by_columns|length() > 0 %}
   {% set select_gb_cols = group_by_columns|join(', ') + ', ' %}
   {% set join_gb_cols %}
@@ -28,7 +28,7 @@
 {#-- The same logic is used in fewer_rows_than. In case of changes, maintain consistent logic --#}
 {% set group_by_columns = ['id_dbtutils_test_equal_rowcount'] + group_by_columns %}
 {% set groupby_gb_cols = 'group by ' + group_by_columns|join(',') %}
--- {{ has_grouping }}
+
 with a as (
 
     select 
